@@ -1,6 +1,6 @@
 # InvestPal
 
-InvestPal is an advanced AI-powered investment advisor service. It leverages FastAPI for the backend, MongoDB for data persistence, and LangChain to integrate various Large Language Models (LLMs) like OpenAI, Google Gemini, and Anthropic. It also uses the Model Context Protocol (MCP) to access real-time investing data and tools.
+InvestPal is an advanced AI-powered investment advisor service. It leverages FastAPI for the backend, MongoDB for data persistence, and LangChain to integrate various Large Language Models (LLMs) like OpenAI, Google Gemini, and Anthropic. It also uses the Model Context Protocol (MCP) and [MarketDataMcpServer](https://github.com/OrestisStefanou/MarketDataMcpServer) to access real-time investing data and tools.
 
 ## Features
 
@@ -16,6 +16,7 @@ InvestPal is an advanced AI-powered investment advisor service. It leverages Fas
 - **Database**: [MongoDB](https://www.mongodb.com/)
 - **AI Framework**: [LangChain](https://www.langchain.com/)
 - **Protocol**: [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)
+- **MCP Server**: [MarketDataMcpServer](https://github.com/OrestisStefanou/MarketDataMcpServer)
 - **Dependency Management**: [uv](https://github.com/astral-sh/uv)
 
 ## Prerequisites
@@ -23,7 +24,7 @@ InvestPal is an advanced AI-powered investment advisor service. It leverages Fas
 - Python 3.13+
 - MongoDB instance (Atlas or local)
 - API Keys for your chosen LLM (OpenAI, Google, or Anthropic)
-- Access to an MCP server providing investment data tools
+- Access to a [MarketDataMcpServer](https://github.com/OrestisStefanou/MarketDataMcpServer) instance providing investment data tools
 
 ## Installation
 
