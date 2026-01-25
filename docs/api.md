@@ -83,6 +83,8 @@ Notification or warning banner.
 - `message` (string): Alert content.
 - `severity` (string): `info`, `warning`, `success`, `error`.
 - `actionable` (bool): If the alert has an action.
+- `action_label` (string): Label for the action button (optional).
+- `action_payload` (object): Data payload for the action (optional).
 
 **4. Security Card (`security_card`)**
 Snapshot of a financial security.
@@ -90,6 +92,8 @@ Snapshot of a financial security.
 - `name` (string): Security name.
 - `price` (float): Current price.
 - `market_cap` (float): Market capitalization (optional).
+- `description` (string): Description of the security (optional).
+- `industry` (string): Industry the security belongs to (optional).
 - `asset_type` (string): `stock`, `etf`, `crypto`, `commodity`, `index`.
 - `sector` (string): Sector name (optional).
 
@@ -107,8 +111,10 @@ Macroeconomic data points.
 - `indicator_name` (string): Name (e.g., GDP).
 - `current_value` (float): Latest value.
 - `previous_value` (float): Previous period value.
+- `change` (float): Change from previous value (optional).
 - `trend` (string): `up`, `down`, `stable`.
 - `as_of_date` (string): Date of data.
+- `chart_data` (array of objects): Historical time series data (optional).
 
 **7. Portfolio Holdings (`portfolio_holdings`)**
 Table of portfolio positions.
@@ -120,6 +126,7 @@ Table of portfolio positions.
     - `shares` (float): Number of shares (optional).
     - `sector` (string): Sector classification (optional).
 - `total_value` (float): Total portfolio value.
+- `as_of_date` (string): Date the holdings data is from (optional).
 
 **8. Comparison Table (`comparison_table`)**
 Side-by-side comparison of entities.
@@ -148,6 +155,7 @@ Income statement, balance sheet, or cash flow.
     - `line_item` (string): Name of the line item.
     - `values` (map<string, float>): Map of period to value.
     - `category` (string): Grouping category (optional).
+- `currency` (string): Currency code, default `USD`.
 
 **11. Time Series Chart (`time_series_chart`)**
 Historical data visualization.
@@ -156,6 +164,10 @@ Historical data visualization.
     - `data` (array of objects): List of `{ "timestamp": "ISO_DATE", "value": float }`.
     - `color` (string): Hex color code (optional).
 - `chart_type` (string): `line`, `area`, `bar`, `candlestick`.
+- `x_axis_label` (string): Label for the x-axis (optional).
+- `y_axis_label` (string): Label for the y-axis (optional).
+- `date_range` (string): Description of the date range (e.g., '1Y', '5Y', 'YTD') (optional).
+- `format` (string): Format for y-axis values (optional).
 
 **12. Allocation Chart (`allocation_chart`)**
 Distribution breakdown.
@@ -166,6 +178,7 @@ Distribution breakdown.
     - `color` (string): Hex color code (optional).
 - `chart_type` (string): `pie`, `donut`, `treemap`.
 - `allocation_type` (string): `sector`, `asset_class`, `geography`, `holdings`, `market_cap`.
+- `total_value` (float): Total value being allocated (optional).
 
 **13. News Feed (`news_feed`)**
 Relevant news articles.
@@ -183,6 +196,9 @@ Projected growth calculator.
 - `initial_investment` (float): Starting amount.
 - `annual_return` (float): Expected return %.
 - `years` (int): Time horizon.
+- `final_value` (float): Projected final value.
+- `total_return` (float): Total dollar return.
+- `total_return_percent` (float): Total percentage return.
 - `projections` (array of objects):
     - `year` (int): Year number.
     - `value` (float): Projected value.
