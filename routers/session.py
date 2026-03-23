@@ -1,10 +1,12 @@
 from enum import Enum
 import http
+from datetime import datetime
 
 from fastapi import (
     APIRouter, 
     Depends, 
     HTTPException,
+    Query,
 )
 from pydantic import BaseModel
 
@@ -48,6 +50,31 @@ class SessionSchema(BaseModel):
     messages: list[MessageSchema]
 
 
+class SessionSummarySchema(BaseModel):
+    session_id: str
+    title: str
+    created_at: datetime
+    is_empty: bool
+
+
+@router.get("/sessions", response_model=list[SessionSummarySchema])
+async def list_user_sessions(
+    user_id: str = Query(...),
+    session_service: SessionService = Depends(get_session_service)
+):
+    """List all sessions for a given user. DB query is strictly filtered by user_id."""
+    summaries = await session_service.list_sessions(user_id)
+    return [
+        SessionSummarySchema(
+            session_id=s.session_id,
+            title=s.title,
+            created_at=s.created_at,
+            is_empty=s.is_empty,
+        )
+        for s in summaries
+    ]
+
+
 @router.post("/session", response_model=SessionSchema, status_code=http.HTTPStatus.CREATED)
 async def create_session(request: CreateSessionRequest, session_service: SessionService = Depends(get_session_service)):
     try:
@@ -86,3 +113,30 @@ async def get_session(session_id: str, session_service: SessionService = Depends
         user_id=session.user_id,
         messages=messages,
     )
+
+
+class RenameTitleRequest(BaseModel):
+    title: str
+
+
+@router.delete("/session/{session_id}", status_code=http.HTTPStatus.NO_CONTENT)
+async def delete_session(
+    session_id: str,
+    session_service: SessionService = Depends(get_session_service),
+):
+    deleted = await session_service.delete_session(session_id)
+    if not deleted:
+        raise HTTPException(status_code=http.HTTPStatus.NOT_FOUND, detail="Session not found")
+
+
+@router.patch("/session/{session_id}/title", status_code=http.HTTPStatus.NO_CONTENT)
+async def rename_session(
+    session_id: str,
+    body: RenameTitleRequest,
+    session_service: SessionService = Depends(get_session_service),
+):
+    if not body.title.strip():
+        raise HTTPException(status_code=http.HTTPStatus.BAD_REQUEST, detail="Title cannot be empty")
+    updated = await session_service.rename_session(session_id, body.title)
+    if not updated:
+        raise HTTPException(status_code=http.HTTPStatus.NOT_FOUND, detail="Session not found")
